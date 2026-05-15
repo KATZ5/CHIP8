@@ -1,3 +1,6 @@
+### Part 1: Intro, Building, and Usage
+
+````markdown
 # CHIP-8 Emulator & Toolchain
 
 A fully-featured CHIP-8 emulator, interactive debugger, and custom assembler written entirely in [Odin](https://odin-lang.org/).
@@ -6,9 +9,11 @@ Designed as an educational tool for exploring computer architecture, this projec
 
 ## ✨ Features
 
+- **Cycle-Accurate Emulation:** Accurately implements the standard CHIP-8 instruction set, timers, and display logic.
 - **Interactive Developer Dashboard:** Built with `microui`, featuring real-time views of the CPU Registers, Stack, Memory layout, and a live Disassembler.
 - **Integrated Assembler:** Write custom `.asm` files and drag them directly into the emulator to instantly compile and run.
 - **Drag-and-Drop Workflow:** Drop `.ch8` binary ROMs or `.asm` source code files directly onto the application window.
+- **Standalone Deployment:** Statically linked on Windows (no DLLs required) for extremely easy distribution.
 
 ---
 
@@ -22,56 +27,68 @@ Because Odin statically links the Raylib and MicroUI C-libraries by default, bui
 
 ```bash
 # Clone the repository
-git clone git@github.com:KATZ5/CHIP8.git
-cd CHIP8
+git clone [https://github.com/KATZ-N/chip8-emulator.git](https://github.com/KATZ-N/chip8-emulator.git)
+cd chip8-emulator
 
 # Build the highly optimized release version
 odin build . -out:chip8_emulator.exe -o:speed
 ```
+````
+
+_Note: To hide the background terminal window for a cleaner aesthetic, append `-subsystem:windows` to the build command._
 
 ### Linux
 
 To compile on Linux, you need to provide the system development headers for audio and window management (X11/Wayland/ALSA) so Raylib can link successfully.
 
-#### Arch Linux
+**Ubuntu / Debian / Pop!\_OS:**
+
+```bash
+sudo apt update
+sudo apt install libasound2-dev libx11-dev libxrandr-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev libxcursor-dev libxinerama-dev
+
+odin build . -out:chip8_linux -o:speed
+
+```
+
+**Arch Linux / Manjaro:**
 
 ```bash
 sudo pacman -S alsa-lib libx11 libxrandr libxi mesa glu libxcursor libxinerama
 
 odin build . -out:chip8_linux -o:speed
+
 ```
+
+---
 
 ## 🎮 Usage
 
 You can launch the emulator with or without a ROM.
 
+**Command Line Argument:**
+
 ```bash
-# launch with an rom already loaded
 ./chip8_emulator roms/Tetris.ch8
 
 ```
 
-### Drag and Drop:
+**Drag and Drop:**
+Simply launch the executable and drag any `.ch8` binary file or `.asm` text file from your file manager directly onto the emulator window.
 
-Simply launch the executable and drag any .ch8 binary file or .asm text file from your file manager directly onto the emulator window.
+**Keyboard Controls:**
 
-Keyboard Controls:
+- The CHIP-8 uses a 16-key hex pad (0-F). This is mapped to your standard keyboard (`1-4`, `Q-R`, `A-F`, `Z-V`).
+- Press **`P`** to toggle the emulator Pause state.
+- While paused, press **`SPACE`** to step the CPU forward exactly one instruction at a time.
 
-    The CHIP-8 uses a 16-key hex pad (0-F). This is mapped to your standard keyboard (1-4, Q-R, A-F, Z-V).
-
-    Press P to toggle the emulator Pause state.
-
-    While paused, press SPACE to step the CPU forward exactly one instruction at a time.
-
-    Or simply use the debugger view
+````
 
 ---
 
 ### Part 2: The Assembler and Credits
 
-Copy this second block and paste it directly underneath Part 1:
-
-````markdown
+```markdown
 ---
 
 ## 💻 The Assembler
@@ -81,14 +98,12 @@ This emulator includes a custom built-in assembler. You can write CHIP-8 assembl
 The assembler perfectly adheres to the syntax outlined in **[Cowgod's Chip-8 Technical Reference](http://devernay.free.fr/hacks/chip8/C8TECH10.HTM)** (specifically Section 3.1).
 
 ### Syntax Rules
-
-- **Comments:** Any text following a `;` is ignored.
-- **Hex vs Decimal:** Standard numbers are treated as decimal (e.g., `10`). Numbers prefixed with `0x` are treated as hex (e.g., `0xA`).
-- **Commas:** Commas are completely optional and ignored by the lexer (`LD V0, 5` is identical to `LD V0 5`).
-- **Labels:** Words ending in a colon (`loop:`) create memory address labels that can be referenced by `JP` or `CALL` instructions.
+* **Comments:** Any text following a `;` is ignored.
+* **Hex vs Decimal:** Standard numbers are treated as decimal (e.g., `10`). Numbers prefixed with `0x` are treated as hex (e.g., `0xA`).
+* **Commas:** Commas are completely optional and ignored by the lexer (`LD V0, 5` is identical to `LD V0 5`).
+* **Labels:** Words ending in a colon (`loop:`) create memory address labels that can be referenced by `JP` or `CALL` instructions.
 
 ### Example Program (`test.asm`)
-
 ```asm
 ; Draws the number "8" to the center of the screen
 CLS             ; Clear the display
@@ -104,15 +119,17 @@ DRW V0, V1, 5   ; Draw a 5-byte tall sprite at X, Y
 infinite_loop:
 JP infinite_loop
 
+````
+
+---
 
 ## 📜 Credits
 
-    Odin: The systems programming language driving the emulator logic.
+- **[Odin](https://odin-lang.org/):** The systems programming language driving the emulator logic.
+- **[Raylib](https://www.raylib.com/):** Hardware-accelerated graphics and audio rendering.
+- **[MicroUI](https://github.com/rxi/microui):** The lightweight immediate-mode GUI library used for the developer dashboard.
+- **[Cowgod's CHIP-8 Reference](http://devernay.free.fr/hacks/chip8/C8TECH10.HTM):** The definitive spec used to build the opcodes and assembler translation.
 
-    Raylib: Hardware-accelerated graphics and audio rendering.
-
-    MicroUI: The lightweight immediate-mode GUI library used for the developer dashboard.
-
-    Cowgod's CHIP-8 Reference: The definitive spec used to build the opcodes and assembler translation.
 ```
-````
+
+```
