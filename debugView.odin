@@ -1,10 +1,10 @@
 package chip8
 
 import "core:fmt"
+import "core:os"
 import "core:strings"
 import mu "vendor:microui"
 import rl "vendor:raylib"
-import "core:os"
 
 
 mu_text_width :: proc(font: mu.Font, str: string) -> i32 {
@@ -22,8 +22,8 @@ draw_debug_view :: proc(
 	ctx: ^mu.Context,
 	screen_rect: ^mu.Rect,
 	clip_rect: ^mu.Rect,
-	is_paused: ^bool, 
-	dropped_files : string,
+	is_paused: ^bool,
+	dropped_files: string,
 ) {
 
 	mu.begin(ctx)
@@ -61,7 +61,7 @@ draw_debug_view :: proc(
 	}
 	if mu.begin_window(ctx, "DISASSEMBLER", {960, 0, 320, 800}, {.NO_RESIZE}) {
 		mu.layout_row(ctx, {130, -1}, 0)
-		
+
 
 		for i in 0 ..< 32 {
 			addr := chip8.pc + u16(i * 2)
@@ -80,7 +80,7 @@ draw_debug_view :: proc(
 				mu.text(ctx, instruction)
 			}
 		}
-		
+
 		mu.end_window(ctx)
 	}
 
@@ -103,7 +103,7 @@ draw_debug_view :: proc(
 	if mu.begin_window(ctx, "MEMORY", {320, 560, 640, 240}, {.NO_RESIZE}) {
 
 		// - 80 pixels for the Address column
-		// - 0 for the next 8 columns 
+		// - 0 for the next 8 columns
 		mu.layout_row(ctx, {80, 65, 65, 65, 65, 65, 65, 65, 65}, 0)
 
 		for row in 0 ..< 512 {
@@ -140,7 +140,7 @@ draw_debug_view :: proc(
 		if .SUBMIT in mu.button(ctx, "Reset ROM") {
 			initialize()
 			loadProgram(dropped_files)
-			
+
 		}
 
 		mu.text(ctx, "--- Execution ---")
@@ -193,7 +193,7 @@ draw_debug_view :: proc(
 		for i in 0 ..< 16 {
 			is_pressed := chip8.keypad[key_indices[i]] == 1
 			label := is_pressed ? fmt.tprintf("[%s]", keys[i]) : keys[i]
-			mu.button(ctx, label) 
+			mu.button(ctx, label)
 		}
 		mu.end_window(ctx)
 	}
@@ -316,30 +316,30 @@ disassemble_opcode :: proc(opcode: u16) -> string {
 }
 
 save_rom_to_file :: proc(memory: ^[4096]u8) {
-    builder := strings.builder_make()
-    defer strings.builder_destroy(&builder)
+	builder := strings.builder_make()
+	defer strings.builder_destroy(&builder)
 
-    //Loop through the ROM memory space
-    for pc := 0x200; pc < 4096; pc += 2 {
-        // Fetch the opcode
-        opcode := (u16(memory[pc]) << 8) | u16(memory[pc+1])
+	//Loop through the ROM memory space
+	for pc := 0x200; pc < 4096; pc += 2 {
+		// Fetch the opcode
+		opcode := (u16(memory[pc]) << 8) | u16(memory[pc + 1])
 
-        if opcode == 0x0000 {
-            continue 
-        }
+		if opcode == 0x0000 {
+			continue
+		}
 
-        instruction := disassemble_opcode(opcode)
+		instruction := disassemble_opcode(opcode)
 
-        fmt.sbprintfln(&builder, "0x%04X: %04X - %s", pc, opcode, instruction)
-    }
+		fmt.sbprintfln(&builder, "0x%04X: %04X - %s", pc, opcode, instruction)
+	}
 
-    final_text := strings.to_string(builder)
+	final_text := strings.to_string(builder)
 
-    err := os.write_entire_file("disassembly.txt", transmute([]u8)final_text)
+	err := os.write_entire_file("disassembly.txt", transmute([]u8)final_text)
 
-    if err != nil {
-        fmt.eprintfln("Failed to save disassembly: %v", err)
-    } else {
-        fmt.println("Successfully dumped ROM to disassembly.txt!")
-    }
+	if err != nil {
+		fmt.eprintfln("Failed to save disassembly: %v", err)
+	} else {
+		fmt.println("Successfully dumped ROM to disassembly.txt!")
+	}
 }

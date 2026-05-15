@@ -14,12 +14,12 @@ parse_reg :: proc(s: string) -> (u16, bool) {
 
 parse_val :: proc(s: string, labels: map[string]u16) -> (u16, bool) {
 	if val, exists := labels[s]; exists do return val, true
-	
+
 	if strings.has_prefix(s, "0x") {
 		val, ok := strconv.parse_int(s[2:], 16)
 		return u16(val), ok
 	}
-	
+
 	val, ok := strconv.parse_int(s, 10)
 	return u16(val), ok
 }
@@ -32,17 +32,17 @@ assemble_code :: proc(source: string) -> (compiled_bytes: []u8, success: bool) {
 	defer delete(lines)
 
 	current_address: u16 = 0x200
-	
+
 	for raw_line in lines {
 		line := strings.to_lower(strings.trim_space(raw_line))
-		
+
 		if idx := strings.index(line, ";"); idx >= 0 {
 			line = strings.trim_space(line[:idx])
 		}
 		if len(line) == 0 do continue
 
 		if strings.has_suffix(line, ":") {
-			label_name := line[:len(line)-1]
+			label_name := line[:len(line) - 1]
 			labels[label_name] = current_address
 			continue
 		}
@@ -57,7 +57,7 @@ assemble_code :: proc(source: string) -> (compiled_bytes: []u8, success: bool) {
 	for raw_line in lines {
 		line_number += 1
 		line := strings.to_lower(strings.trim_space(raw_line))
-		
+
 		if idx := strings.index(line, ";"); idx >= 0 {
 			line = strings.trim_space(line[:idx])
 		}
@@ -72,9 +72,11 @@ assemble_code :: proc(source: string) -> (compiled_bytes: []u8, success: bool) {
 		err := false
 
 		switch op {
-		case "cls": opcode = 0x00E0
-		case "ret": opcode = 0x00EE
-		case "sys": 
+		case "cls":
+			opcode = 0x00E0
+		case "ret":
+			opcode = 0x00EE
+		case "sys":
 			val, _ := parse_val(tokens[1], labels)
 			opcode = 0x0000 | (val & 0x0FFF)
 		case "jp":
@@ -182,7 +184,8 @@ assemble_code :: proc(source: string) -> (compiled_bytes: []u8, success: bool) {
 			x, _ := parse_reg(tokens[1]); val, _ := parse_val(tokens[2], labels)
 			opcode = 0xC000 | (x << 8) | (val & 0x00FF)
 		case "drw":
-			x, _ := parse_reg(tokens[1]); y, _ := parse_reg(tokens[2]); val, _ := parse_val(tokens[3], labels)
+			x, _ := parse_reg(tokens[1]); y, _ := parse_reg(tokens[2])
+			val, _ := parse_val(tokens[3], labels)
 			opcode = 0xD000 | (x << 8) | (y << 4) | (val & 0x000F)
 		case "skp":
 			x, _ := parse_reg(tokens[1])
@@ -203,3 +206,4 @@ assemble_code :: proc(source: string) -> (compiled_bytes: []u8, success: bool) {
 
 	return output[:], true
 }
+

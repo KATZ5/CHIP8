@@ -1,9 +1,9 @@
 package chip8
 
-import "core:path/filepath"
 import "core:fmt"
-import "core:os"
 import "core:mem"
+import "core:os"
+import "core:path/filepath"
 import "core:strings"
 import mu "vendor:microui"
 import rl "vendor:raylib"
@@ -15,18 +15,18 @@ UI_FONT_SIZE :: 15
 
 ui_font: rl.Font
 chip8: Chip8
-file :string
+file: string
 
 is_paused := true
 main :: proc() {
 	rl.InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "CHIP8")
 	defer rl.CloseWindow()
-	rl.InitAudioDevice();
-    defer rl.CloseAudioDevice();
+	rl.InitAudioDevice()
+	defer rl.CloseAudioDevice()
 	rl.SetTargetFPS(60)
-	
-	beep : rl.Sound= rl.LoadSound("roms/beep-21.wav");
-	defer rl.UnloadSound(beep);
+
+	beep: rl.Sound = rl.LoadSound("roms/beep-21.wav")
+	defer rl.UnloadSound(beep)
 
 
 	ui_font = rl.LoadFontEx("fonts/ITGridbitDemo-Italic.otf", UI_FONT_SIZE, nil, 0)
@@ -47,11 +47,11 @@ main :: proc() {
 	defer delete(chip8.stack)
 	initialize()
 
-	if len(os.args) > 1{
-	loadProgram(os.args[1])
+	if len(os.args) > 1 {
+		loadProgram(os.args[1])
 	}
 	//printMemory()
-	dropped_files : rl.FilePathList
+	dropped_files: rl.FilePathList
 
 	for !rl.WindowShouldClose() {
 		if rl.IsFileDropped() {
@@ -63,8 +63,8 @@ main :: proc() {
 				//file = string(dropped_files.paths[0])
 
 				if len(file) > 0 {
-            		delete(file)
-        		}
+					delete(file)
+				}
 				file = strings.clone(file_path)
 
 				if strings.has_suffix(file_path, ".ch8") {
@@ -73,16 +73,16 @@ main :: proc() {
 					data, err := os.read_entire_file(file_path, context.allocator)
 					if err == os.ERROR_NONE {
 						defer delete(data, context.allocator)
-						
+
 						compiled_bytes, success := assemble_code(string(data))
 						if success {
 							defer delete(compiled_bytes)
-							
+
 							// Reset and load the compiled bytes
 							initialize()
 							mem.zero(&chip8.memory[0x200], 4096 - 0x200)
 							copy(chip8.memory[0x200:], compiled_bytes)
-							
+
 							fmt.printfln("Successfully Assembled & Loaded: %s", file_path)
 						} else {
 							fmt.println("Assembly failed. Check your syntax.")
@@ -141,7 +141,7 @@ main :: proc() {
 		draw(screen_target)
 
 		screen_rect, clip_rect: mu.Rect
-		draw_debug_view(ctx, &screen_rect, &clip_rect, &is_paused,file)
+		draw_debug_view(ctx, &screen_rect, &clip_rect, &is_paused, file)
 		source_rec := rl.Rectangle{0, 0, 640, -320}
 		dest_rec := rl.Rectangle {
 			f32(screen_rect.x),
