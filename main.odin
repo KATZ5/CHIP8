@@ -15,6 +15,7 @@ UI_FONT_SIZE :: 15
 
 ui_font: rl.Font
 chip8: Chip8
+file :string
 
 is_paused := true
 main :: proc() {
@@ -50,8 +51,7 @@ main :: proc() {
 	loadProgram(os.args[1])
 	}
 	//printMemory()
-	file :string
-		dropped_files : rl.FilePathList
+	dropped_files : rl.FilePathList
 
 	for !rl.WindowShouldClose() {
 		if rl.IsFileDropped() {
@@ -60,7 +60,12 @@ main :: proc() {
 
 			if dropped_files.count > 0 {
 				file_path := string(dropped_files.paths[0])
-				file = string(dropped_files.paths[0])
+				//file = string(dropped_files.paths[0])
+
+				if len(file) > 0 {
+            		delete(file)
+        		}
+				file = strings.clone(file_path)
 
 				if strings.has_suffix(file_path, ".ch8") {
 					loadProgram(file_path)

@@ -10,7 +10,7 @@ LD V0, 0        ; F(n-1) = 0
 LD V1, 1        ; F(n)   = 1
 
 calculate:
-; 2. Artificial Delay (So humans can watch the registers change)
+; 2. Artificial Delay
 ; We set the Delay Timer to 30 (roughly half a second at 60Hz)
 LD VA, 30       
 LD DT, VA       

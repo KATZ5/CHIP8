@@ -139,6 +139,7 @@ draw_debug_view :: proc(
 
 		if .SUBMIT in mu.button(ctx, "Reset ROM") {
 			initialize()
+			loadProgram(dropped_files)
 			
 		}
 

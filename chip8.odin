@@ -4,6 +4,8 @@ import "core:fmt"
 import "core:math/rand"
 import "core:mem"
 import "core:os"
+import "core:strings"
+
 import rl "vendor:raylib"
 
 Chip8 :: struct {
@@ -30,7 +32,7 @@ initialize :: proc() {
 	chip8.display = 0
 	chip8.delay_timer = 0
 	chip8.sound_timer = 0
-	
+
 
 	clear_dynamic_array(&chip8.stack)
 
@@ -40,19 +42,45 @@ initialize :: proc() {
 
 
 	chip8.drawflag = true
+
 }
 
 loadProgram :: proc(path: string) {
-	data, ok := os.read_entire_file(path, context.allocator)
-	if ok != os.ERROR_NONE {
+	//fmt.printfln(path)
+
+	if strings.has_suffix(path, ".ch8") {
+		data, ok := os.read_entire_file(path, context.allocator)
+		if ok != os.ERROR_NONE {
 		// could not read file
 		fmt.println("FAILED TO OPEN ROM FILE")
 		return
-	}
-	defer delete(data, context.allocator)
-	initialize()
-	mem.zero(&chip8.memory[0x200], 4096-0x200)
-	copy(chip8.memory[0x200:], data)
+		}
+		defer delete(data, context.allocator)
+		initialize()
+		mem.zero(&chip8.memory[0x200], 4096-0x200)
+		copy(chip8.memory[0x200:], data)
+				} else if strings.has_suffix(path, ".asm") {
+					data, err := os.read_entire_file(path, context.allocator)
+					if err == os.ERROR_NONE {
+						defer delete(data, context.allocator)
+						
+						compiled_bytes, success := assemble_code(string(data))
+						if success {
+							defer delete(compiled_bytes)
+							
+							// Reset and load the compiled bytes
+							initialize()
+							mem.zero(&chip8.memory[0x200], 4096 - 0x200)
+							copy(chip8.memory[0x200:], compiled_bytes)
+							
+							fmt.printfln("Successfully Assembled & Loaded: %s", path)
+						} else {
+							fmt.println("Assembly failed. Check your syntax.")
+						}
+					}
+				}
+
+	
 
 }
 
