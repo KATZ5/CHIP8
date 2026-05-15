@@ -6,11 +6,9 @@ Designed as an educational tool for exploring computer architecture, this projec
 
 ## ✨ Features
 
-- **Cycle-Accurate Emulation:** Accurately implements the standard CHIP-8 instruction set, timers, and display logic.
 - **Interactive Developer Dashboard:** Built with `microui`, featuring real-time views of the CPU Registers, Stack, Memory layout, and a live Disassembler.
 - **Integrated Assembler:** Write custom `.asm` files and drag them directly into the emulator to instantly compile and run.
 - **Drag-and-Drop Workflow:** Drop `.ch8` binary ROMs or `.asm` source code files directly onto the application window.
-- **Standalone Deployment:** Statically linked on Windows (no DLLs required) for extremely easy distribution.
 
 ---
 
@@ -30,3 +28,15 @@ cd CHIP8
 # Build the highly optimized release version
 odin build . -out:chip8_emulator.exe -o:speed
 ```
+
+### Linux
+
+To compile on Linux, you need to provide the system development headers for audio and window management (X11/Wayland/ALSA) so Raylib can link successfully.
+
+### Arch Linux
+```bash
+sudo pacman -S alsa-lib libx11 libxrandr libxi mesa glu libxcursor libxinerama
+
+odin build . -out:chip8_linux -o:speed
+```
+
