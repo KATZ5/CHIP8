@@ -1,0 +1,8 @@
+{
+  "enable_format": true,
+  "format_model": {
+    "column_limit": 120,
+    "tabs": true,
+    "tab_width": 4
+  }
+}
