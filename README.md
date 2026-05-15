@@ -12,6 +12,19 @@ Designed as an educational tool for exploring computer architecture, this projec
 
 ---
 
+## 📦 Releases & Downloads
+
+The easiest way to use the emulator is to download the latest pre-compiled release.
+
+1. Navigate to the **[Releases](https://github.com/KATZ5/CHIP8/releases/tag/v1.0.0)** page.
+2. Download the `CHIP8_(Windows/Linux).zip` file attached under the **Assets** section.
+3. Extract the folder and run `chip8_Windows.exe` (Windows) or `chip8_linux` (Linux).
+4. Drag and drop any `.ch8` ROM or `.asm` text file directly onto the application window to play!
+
+_Note for Windows Users: Because this is an unsigned indie developer executable, Windows SmartScreen may flag it. When prompted, click "More Info" -> "Run Anyway"._
+
+---
+
 ## 🛠️ Building from Source
 
 To compile this project, you will need the [Odin Compiler](https://odin-lang.org/docs/install/) installed on your system.
@@ -108,5 +121,4 @@ JP infinite_loop
 
 [MicroUI](https://github.com/rxi/microui.git): The lightweight immediate-mode GUI library used for the developer dashboard.
 
-[Cowgod's Chip-8 Technical Reference](http://devernay.free.fr/hacks/chip8/C8TECH10.HTM): The  spec used to build the opcodes and assembler translation.
-
+[Cowgod's Chip-8 Technical Reference](http://devernay.free.fr/hacks/chip8/C8TECH10.HTM): The spec used to build the opcodes and assembler translation.
