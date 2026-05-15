@@ -67,28 +67,7 @@ main :: proc() {
 				}
 				file = strings.clone(file_path)
 
-				if strings.has_suffix(file_path, ".ch8") {
-					loadProgram(file_path)
-				} else if strings.has_suffix(file_path, ".asm") {
-					data, err := os.read_entire_file(file_path, context.allocator)
-					if err == os.ERROR_NONE {
-						defer delete(data, context.allocator)
-
-						compiled_bytes, success := assemble_code(string(data))
-						if success {
-							defer delete(compiled_bytes)
-
-							// Reset and load the compiled bytes
-							initialize()
-							mem.zero(&chip8.memory[0x200], 4096 - 0x200)
-							copy(chip8.memory[0x200:], compiled_bytes)
-
-							fmt.printfln("Successfully Assembled & Loaded: %s", file_path)
-						} else {
-							fmt.println("Assembly failed. Check your syntax.")
-						}
-					}
-				}
+				loadProgram(file)
 			}
 		}
 

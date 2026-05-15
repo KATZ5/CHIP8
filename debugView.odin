@@ -70,13 +70,10 @@ draw_debug_view :: proc(
 				op := (u16(chip8.memory[addr]) << 8) | u16(chip8.memory[addr + 1])
 				marker := i == 0 ? "->" : "  "
 
-				// 1. Get the human readable instruction
 				instruction := disassemble_opcode(op)
 
-				// 2. Print Column 1 (Marker + Address + Opcode)
 				mu.text(ctx, fmt.tprintf("%s %04X | %04X", marker, addr, op))
 
-				// 3. Print Column 2 (The disassembled instruction)
 				mu.text(ctx, instruction)
 			}
 		}
@@ -311,7 +308,7 @@ disassemble_opcode :: proc(opcode: u16) -> string {
 		}
 	}
 
-	// If we hit data that isn't a valid instruction (prite data)
+	// If we hit data that isn't a valid instruction (sprite data)
 	return "???"
 }
 
