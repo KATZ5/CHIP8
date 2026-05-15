@@ -33,10 +33,10 @@ odin build . -out:chip8_emulator.exe -o:speed
 
 To compile on Linux, you need to provide the system development headers for audio and window management (X11/Wayland/ALSA) so Raylib can link successfully.
 
-### Arch Linux
+#### Arch Linux
+
 ```bash
 sudo pacman -S alsa-lib libx11 libxrandr libxi mesa glu libxcursor libxinerama
 
 odin build . -out:chip8_linux -o:speed
 ```
-
