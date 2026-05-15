@@ -102,11 +102,11 @@ JP infinite_loop
 
 ## 📜 Credits
 
-    [Odin ](https://odin-lang.org): The systems programming language driving the emulator logic.
+[Odin ](https://odin-lang.org): The systems programming language driving the emulator logic.
 
-    [Raylib](https://www.raylib.com/): Hardware-accelerated graphics and audio rendering.
+[Raylib](https://www.raylib.com/): Hardware-accelerated graphics and audio rendering.
 
-    [MicroUI](https://github.com/rxi/microui.git): The lightweight immediate-mode GUI library used for the developer dashboard.
+[MicroUI](https://github.com/rxi/microui.git): The lightweight immediate-mode GUI library used for the developer dashboard.
 
-    [Cowgod's Chip-8 Technical Reference](http://devernay.free.fr/hacks/chip8/C8TECH10.HTM): The  spec used to build the opcodes and assembler translation.
+[Cowgod's Chip-8 Technical Reference](http://devernay.free.fr/hacks/chip8/C8TECH10.HTM): The  spec used to build the opcodes and assembler translation.
 
