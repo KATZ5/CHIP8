@@ -52,6 +52,7 @@ You can launch the emulator with or without a ROM.
 ```
 
 ### Drag and Drop:
+
 Simply launch the executable and drag any .ch8 binary file or .asm text file from your file manager directly onto the emulator window.
 
 Keyboard Controls:
@@ -66,24 +67,23 @@ Keyboard Controls:
 
 ---
 
-### Part 2: The Assembler and Credits
-Copy this second block and paste it directly underneath Part 1:
-
 ---
 
 ## 💻 The Assembler
 
-This emulator includes a custom built-in assembler. You can write CHIP-8 assembly language in your preferred text editor (like VS Code or Vim), save it as an `.asm` file, and drag it into the emulator. 
+This emulator includes a custom built-in assembler. You can write CHIP-8 assembly language in your preferred text editor (like VS Code or Vim), save it as an `.asm` file, and drag it into the emulator.
 
 The assembler perfectly adheres to the syntax outlined in **[Cowgod's Chip-8 Technical Reference](http://devernay.free.fr/hacks/chip8/C8TECH10.HTM)** (specifically Section 3.1).
 
 ### Syntax Rules
-* **Comments:** Any text following a `;` is ignored.
-* **Hex vs Decimal:** Standard numbers are treated as decimal (e.g., `10`). Numbers prefixed with `0x` are treated as hex (e.g., `0xA`).
-* **Commas:** Commas are completely optional and ignored by the lexer (`LD V0, 5` is identical to `LD V0 5`).
-* **Labels:** Words ending in a colon (`loop:`) create memory address labels that can be referenced by `JP` or `CALL` instructions.
+
+- **Comments:** Any text following a `;` is ignored.
+- **Hex vs Decimal:** Standard numbers are treated as decimal (e.g., `10`). Numbers prefixed with `0x` are treated as hex (e.g., `0xA`).
+- **Commas:** Commas are completely optional and ignored by the lexer (`LD V0, 5` is identical to `LD V0 5`).
+- **Labels:** Words ending in a colon (`loop:`) create memory address labels that can be referenced by `JP` or `CALL` instructions.
 
 ### Example Program (`test.asm`)
+
 ```asm
 ; Draws the number "8" to the center of the screen
 CLS             ; Clear the display
@@ -98,14 +98,15 @@ DRW V0, V1, 5   ; Draw a 5-byte tall sprite at X, Y
 
 infinite_loop:
 JP infinite_loop
-
+```
 
 ## 📜 Credits
 
-    Odin: The systems programming language driving the emulator logic.
+    [Odin ](https://odin-lang.org): The systems programming language driving the emulator logic.
 
-    Raylib: Hardware-accelerated graphics and audio rendering.
+    [Raylib](https://www.raylib.com/): Hardware-accelerated graphics and audio rendering.
 
-    MicroUI: The lightweight immediate-mode GUI library used for the developer dashboard.
+    [MicroUI](https://github.com/rxi/microui.git): The lightweight immediate-mode GUI library used for the developer dashboard.
 
-    Cowgod's CHIP-8 Reference: The definitive spec used to build the opcodes and assembler translation.
+    [Cowgod's Chip-8 Technical Reference](http://devernay.free.fr/hacks/chip8/C8TECH10.HTM): The  spec used to build the opcodes and assembler translation.
+
