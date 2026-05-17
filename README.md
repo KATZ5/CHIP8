@@ -1,5 +1,7 @@
 # CHIP-8 Emulator & Toolchain
 
+<video src="screenshorts/untitled.webm" autoplay loop muted width="100%"></video>
+
 A fully-featured CHIP-8 emulator, interactive debugger, and custom assembler written entirely in [Odin](https://odin-lang.org/).
 
 Designed as an educational tool for exploring computer architecture, this project visualizes the fetch-decode-execute cycle in real-time. It features a complete immediate-mode GUI dashboard, seamless drag-and-drop workflow, and a built-in assembler that compiles raw text into machine code on the fly.
