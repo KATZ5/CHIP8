@@ -1,5 +1,6 @@
 # CHIP-8 Emulator & Toolchain
 
+[untitled.webm](https://github.com/user-attachments/assets/048674b1-3997-4e63-9d6a-90184b0eb1fb)
 
 
 A fully-featured CHIP-8 emulator, interactive debugger, and custom assembler written entirely in [Odin](https://odin-lang.org/).
