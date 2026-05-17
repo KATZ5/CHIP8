@@ -1,6 +1,6 @@
 # CHIP-8 Emulator & Toolchain
 
-<video src="./screenshorts/untitled.webm" autoplay loop muted width="100%"></video>
+
 
 A fully-featured CHIP-8 emulator, interactive debugger, and custom assembler written entirely in [Odin](https://odin-lang.org/).
 
